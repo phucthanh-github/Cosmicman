@@ -2,7 +2,8 @@
 
 **Cosmicman** là một ứng dụng web AI cho phép tạo hình ảnh con người chất lượng cao từ văn bản mô tả tiếng Việt hoặc tiếng Anh, đặc biệt hiệu quả cho các văn bản mô tả nhiều chi tiết và phức tạp. Dự án sử dụng mô hình **CosmicMan-SD** (một mô hình được huấn luyện chuyên biệt cho việc tạo dựng hình ảnh con người từ văn bản, sử dụng khung huấn luyện thông minh Daring) kết hợp với mô hình dịch thuật **VinAI Translate** để cho phép người dùng có thể sử dụng ngay cả trên văn bản tiếng Việt.
 ![Demo](demo.png)
-*(Một bức ảnh chân dung chụp cận cảnh một phụ nữ da trắng trưởng thành, thân hình cân đối, tóc vàng gợn sóng dài ngang ngực, mặc một chiếc váy lụa ngắn tay hoa văn, nền tường trắng.)*
+<br>
+*(prompt: Một bức ảnh chân dung chụp cận cảnh một phụ nữ da trắng trưởng thành, thân hình cân đối, tóc vàng gợn sóng dài ngang ngực, mặc một chiếc váy lụa ngắn tay hoa văn, nền tường trắng.)*
 
 ## ✨ Tính năng chính
 - 🇻🇳 **Hỗ trợ Tiếng Việt:** Nhập prompt trực tiếp bằng tiếng Việt, hệ thống tự động dịch sang tiếng Anh chuẩn cho model.
