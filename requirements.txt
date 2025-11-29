@@ -1,0 +1,12 @@
+torch
+torchvision
+torchaudio
+diffusers>=0.30.0
+transformers
+accelerate
+safetensors
+sentencepiece
+gradio>=4.0.0
+scipy
+protobuf
+hf_xet

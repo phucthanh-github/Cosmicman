@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Môi trường ảo
+venv/
+env/
+
+# Model cache (nếu có tải về local)
+*.safetensors
+*.ckpt
+*.bin
+
+# IDE settings
+.vscode/
+.idea/
