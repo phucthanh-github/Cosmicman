@@ -10,3 +10,8 @@ gradio>=4.0.0
 scipy
 protobuf
 hf_xet
+fastapi
+uvicorn
+python-multipart
+pydantic
+accelerate

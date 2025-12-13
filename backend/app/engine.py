@@ -15,30 +15,48 @@ class CosmicEngine:
         self.load_models()
 
     def load_models(self):
+        dtype = torch.float16 if self.device == "cuda" else torch.float32
         print("Đang tải mô hình dịch thuật VinAI...")
-        trans_model_name = "vinai/vinai-translate-vi2en-v2"
-        self.trans_tokenizer = AutoTokenizer.from_pretrained(trans_model_name, src_lang="vi_VN", tgt_lang="en_XX")
-        self.trans_model = AutoModelForSeq2SeqLM.from_pretrained(trans_model_name).to(self.device)
+        try:
+            trans_model_name = "vinai/vinai-translate-vi2en-v2"
+            self.trans_tokenizer = AutoTokenizer.from_pretrained(trans_model_name, src_lang="vi_VN", tgt_lang="en_XX")
+            self.trans_model = AutoModelForSeq2SeqLM.from_pretrained(trans_model_name)
+            
+            if self.device == "cuda":
+                self.trans_model = self.trans_model.to("cuda")
+        except Exception as e:
+            print(f"Lỗi tải VinAI: {e}")
+        
 
         print("Đang tải mô hình CosmicMan-SD...")
         base_path = "runwayml/stable-diffusion-v1-5"
         unet_path = "cosmicman/CosmicMan-SD"
 
         # Cấu hình model
-        unet = UNet2DConditionModel.from_pretrained(unet_path, torch_dtype=torch.float16)
-        self.pipe = StableDiffusionPipeline.from_pretrained(
-            base_path, 
-            unet=unet, 
-            torch_dtype=torch.float16, 
-            variant="fp16", 
-        ).to(self.device)
+        try:
+            unet = UNet2DConditionModel.from_pretrained(unet_path, torch_dtype=dtype)
+
+            # Load Pipeline
+            self.pipe = StableDiffusionPipeline.from_pretrained(
+                base_path, 
+                unet=unet, 
+                torch_dtype=dtype, 
+                low_cpu_mem_usage=True
+            )
+            
+            self.pipe.scheduler = EulerDiscreteScheduler.from_pretrained(
+                base_path, 
+                subfolder="scheduler", 
+                torch_dtype=dtype
+            )
+
+            self.pipe.enable_model_cpu_offload()
+            
+            print("✅ Hoàn tất tải mô hình!")
+            
+        except Exception as e:
+            print(f"❌ Lỗi tải CosmicMan: {e}")
         
-        self.pipe.scheduler = EulerDiscreteScheduler.from_pretrained(
-            base_path, 
-            subfolder="scheduler", 
-            torch_dtype=torch.float16
-        )
-        print("Hoàn tất tải mô hình!")
 
     def translate_vi_to_en(self, text):
         if not text:
